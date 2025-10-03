@@ -112,11 +112,7 @@ def get_or_create_customer_accounts(customer_name, is_internal=True):
 
 
 def validate_transfer_setting(doc, method):
-    """
-    Hook this to Transfer Setting -> validate
-    Ensures customers + accounts are created
-    Updates child table with account links
-    """
+
     # Internal customers
     for row in doc.internal:
         customer, cash_acc, profit_acc = get_or_create_customer_accounts(

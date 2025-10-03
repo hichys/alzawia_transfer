@@ -1,13 +1,19 @@
 import frappe
 from frappe.model.document import Document
 
+
 class AlzawiaTransfer(Document):
-    transfer_setting = frappe.get_single("Transfer Setting")
-    def get_customer_accounts(self,cust_name):
-        for row in self.transfer_setting.internal:
+
+    def get_transfer_setting(self):
+        """Lazy load Transfer Setting safely"""
+        return frappe.get_single("Transfer Setting")
+
+    def get_customer_accounts(self, cust_name):
+        transfer_setting = self.get_transfer_setting()
+        for row in transfer_setting.internal:
             if row.customer == cust_name:
                 return row.cash_account, row.profit_account, True
-        for row in self.transfer_setting.external:
+        for row in transfer_setting.external:
             if row.customer == cust_name:
                 return row.cash_account, None, False
         frappe.throw(f"Customer {cust_name} not found in Transfer Setting")
@@ -17,8 +23,9 @@ class AlzawiaTransfer(Document):
         if not company:
             frappe.throw("Default Company not set in ERPNext.")
 
-        main_profit_account = self.get_customer_accounts(
-            self.transfer_setting.main_branch
+        transfer_setting = self.get_transfer_setting()
+        main_profit_cash, main_profit_acc, _ = self.get_customer_accounts(
+            transfer_setting.main_branch
         )
 
         sender_cash, sender_profit, sender_internal = self.get_customer_accounts(
@@ -40,9 +47,9 @@ class AlzawiaTransfer(Document):
             accounts = self._handle_external_to_internal(
                 sender_cash, receiver_cash, receiver_profit
             )
-        else:  #TODO both external 
+        else:  # both external
             accounts = self._handle_external_to_external(
-                sender_cash, receiver_cash, main_profit_account
+                sender_cash, receiver_cash, main_profit_acc
             )
 
         je = frappe.get_doc(
