@@ -14,8 +14,8 @@ class TransferSetting(Document):
 def get_customer_accounts(customer_name, is_internal=True):
     """Return the expected account names (whether they exist or not)."""
     company = frappe.defaults.get_global_default("company")
-    cash_acc_name = f"{customer_name} - Cash"
-    profit_acc_name = f"{customer_name} - Profit" if is_internal else None
+    cash_acc_name = f"{customer_name} - خزنة"
+    profit_acc_name = f"{customer_name} - عمولة" if is_internal else None
 
     cash_account = frappe.db.get_value(
         "Account", {"account_name": cash_acc_name, "company": company}
@@ -64,8 +64,8 @@ def get_or_create_customer_accounts(customer_name, is_internal=True):
             "Please create 'Customer Cash' parent account in Chart of Accounts."
         )
 
-    cash_acc_name = f"{customer_name} - Cash"
-    profit_acc_name = f"{customer_name} - Profit"
+    cash_acc_name = f"{customer_name} - خزنة"
+    profit_acc_name = f"{customer_name} - عمولة"
 
     cash_account = frappe.db.get_value(
         "Account", {"account_name": cash_acc_name, "company": company}
@@ -101,7 +101,6 @@ def get_or_create_customer_accounts(customer_name, is_internal=True):
                     "account_name": profit_acc_name,
                     "parent_account": profit_parent,
                     "company": company,
-                    "account_type": "Income Account",
                     "is_group": 0,
                 }
             )

@@ -24,7 +24,7 @@ class AlzawiaTransfer(Document):
             frappe.throw("Default Company not set in ERPNext.")
 
         transfer_setting = self.get_transfer_setting()
-        main_profit_cash, main_profit_acc, _ = self.get_customer_accounts(
+        main_cash, main_profit_acc, _ = self.get_customer_accounts(
             transfer_setting.main_branch
         )
 
@@ -57,7 +57,7 @@ class AlzawiaTransfer(Document):
                 "doctype": "Journal Entry",
                 "company": company,
                 "voucher_type": "Journal Entry",
-                "posting_date": frappe.utils.nowdate(),
+                "posting_date": self.posting_date,
                 "accounts": accounts,
                 "remark": self.whatsapp_desc,
             }
@@ -206,7 +206,7 @@ class AlzawiaTransfer(Document):
         else:  # Reverse
             reversal_je = frappe.copy_doc(je_doc)
             reversal_je.name = None
-            reversal_je.posting_date = frappe.utils.nowdate()
+            reversal_je.posting_date = self.posting_date
             reversal_je.voucher_type = "Journal Entry"
             reversal_je.remark = f"حوالة ملغية : {self.whatsapp_desc}"
             reversal_je.reversal_of = je_doc.name
