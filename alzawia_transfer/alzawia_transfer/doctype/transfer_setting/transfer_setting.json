@@ -1,0 +1,82 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-09-17 17:56:36.992816",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "branch_setting_section",
+  "main_branch",
+  "commissions_section",
+  "profit_per_thousand",
+  "section_break_fehf",
+  "internal",
+  "external"
+ ],
+ "fields": [
+  {
+   "fieldname": "commissions_section",
+   "fieldtype": "Section Break",
+   "label": "Commissions"
+  },
+  {
+   "fieldname": "profit_per_thousand",
+   "fieldtype": "Float",
+   "label": "\u0627\u0644\u0639\u0645\u0648\u0644\u0629 \u0644\u0643\u0644 1000"
+  },
+  {
+   "fieldname": "main_branch",
+   "fieldtype": "Link",
+   "label": "Main Branch",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "branch_setting_section",
+   "fieldtype": "Section Break",
+   "label": "Branch Setting"
+  },
+  {
+   "fieldname": "section_break_fehf",
+   "fieldtype": "Section Break",
+   "label": "Customize Internal Vs External"
+  },
+  {
+   "fieldname": "internal",
+   "fieldtype": "Table",
+   "label": "Internal",
+   "options": "Transfer Internal"
+  },
+  {
+   "fieldname": "external",
+   "fieldtype": "Table",
+   "label": "External",
+   "options": "Transfer External"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-10-02 08:55:00.832508",
+ "modified_by": "Administrator",
+ "module": "Alzawia Transfer",
+ "name": "Transfer Setting",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
