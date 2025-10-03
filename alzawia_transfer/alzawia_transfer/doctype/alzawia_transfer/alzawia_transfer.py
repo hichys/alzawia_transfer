@@ -204,6 +204,12 @@ class AlzawiaTransfer(Document):
                 je_doc.cancel()
                 frappe.msgprint(f"Journal Entry {je_doc.name} cancelled.")
         else:  # Reverse
+            if self.posting_date < je_doc.posting_date:
+                frappe.throw(
+                    f"Cannot create reversal entry with posting date {self.posting_date}. "
+                    f"It must be on or after the original JE date {je_doc.posting_date}."
+                    f"الرجاء اختيار تاريخ يساوي او بعد تاريخ القيد الأصلي"
+                )
             reversal_je = frappe.copy_doc(je_doc)
             reversal_je.name = None
             reversal_je.posting_date = self.posting_date
