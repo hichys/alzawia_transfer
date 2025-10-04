@@ -8,18 +8,31 @@ app_license = "mit"
 # Apps
 # ------------------
 
-# required_apps = []
+required_apps = ["erpnext"]
 
 # Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "alzawia_transfer",
-# 		"logo": "/assets/alzawia_transfer/logo.png",
-# 		"title": "Alzawia Transfer",
-# 		"route": "/alzawia_transfer",
-# 		"has_permission": "alzawia_transfer.api.permission.has_app_permission"
-# 	}
-# ]
+add_to_apps_screen = [
+	{
+		"name": "alzawia_transfer",
+		"logo": "/assets/alzawia_transfer/logo.png",
+		"title": "Alzawia Transfer",
+		"route": "/app/alzawia",
+	}
+]
+website_context = {
+    "splash_image": "/assets/alzawia_transfer/logo.png",
+    "favicon": "/assets/alzawia_transfer/logo.png",
+}
+fixtures = [
+    {"doctype": "Workspace", "filters": [["name", "in", ["Alzawia"]]]},
+    {"doctype": "Role", "filters": [["name", "in", ["Alzawia Employee"]]]},
+    {"doctype": "DocPerm", "filters": [["role", "=", "Alzawia Employee"]]},
+    {"doctype": "Custom DocPerm", "filters": [["role", "in", ["Alzawia Employee"]]]},
+    {
+        "doctype": "Report",
+        "filters": [["name", "in", ["حســـابكم لدينا"]]],
+    },
+]
 
 # Includes in <head>
 # ------------------
@@ -57,7 +70,7 @@ app_license = "mit"
 # ----------
 
 # application home page (will override Website Settings)
-# home_page = "login"
+home_page = "/app/alzawia"
 
 # website user home page (by Role)
 # role_home_page = {
@@ -244,4 +257,3 @@ app_license = "mit"
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
-
