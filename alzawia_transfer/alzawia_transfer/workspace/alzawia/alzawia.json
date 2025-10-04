@@ -1,0 +1,48 @@
+{
+ "app": "Alzawia Transfer",
+ "charts": [],
+ "content": "[{\"id\":\"Iqqp5IzcZp\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\" style=\\\"\\\">Alzawia Transfer</span>\",\"col\":12}},{\"id\":\"OeFqqi9-FC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Alzawia Transfer\",\"col\":4}},{\"id\":\"YzwWljszCT\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Alzawia Transfer List\",\"col\":4}},{\"id\":\"KcZ06PisYg\",\"type\":\"paragraph\",\"data\":{\"text\":\"Reports\",\"col\":12}}]",
+ "creation": "2025-10-04 01:40:40.360242",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "grid",
+ "idx": 1,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Alzawia",
+ "link_type": "DocType",
+ "links": [],
+ "modified": "2025-10-04 02:07:49.325404",
+ "modified_by": "Administrator",
+ "module": "Alzawia Transfer",
+ "name": "Alzawia",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 23.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "New",
+   "label": "Alzawia Transfer",
+   "link_to": "Alzawia Transfer",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Alzawia Transfer List",
+   "link_to": "Alzawia Transfer",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Alzawia",
+ "type": "Workspace"
+}
