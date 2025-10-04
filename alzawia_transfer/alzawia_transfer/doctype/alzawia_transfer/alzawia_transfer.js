@@ -136,10 +136,20 @@ frappe.ui.form.on("Alzawia Transfer", {
             if (frm.doc.split_profit && frm.doc.total_profit >= 0) {
 
                 //recalculate profit
-                var original_profit = calculate_profit(frm);
-                frm.set_value('sender_profit', original_profit / 2);
-                frm.set_value('receiver_profit', original_profit / 2);
-                frappe.show_alert({ message: 'العمولة مقسومة' + ': ' + frm.doc.sender_profit, indicator: 'green' });
+                if(!frm.doc.is_crossing)
+                {
+                    var original_profit = frm.doc.total_profit;
+                    frm.set_value('sender_profit', original_profit / 2);
+                    frm.set_value('receiver_profit', original_profit / 2);
+                    frappe.show_alert({ message: 'العمولة مقسومة' + ': ' + frm.doc.sender_profit, indicator: 'green' });
+                }
+                else{
+                    var split = frm.doc.total_profit / 3;
+                    frm.set_value('alzawia_profit', Math.round(split));
+                    frm.set_value('sender_profit', Math.round(split));
+                    frm.set_value('receiver_profit', Math.round(split));
+                    frappe.show_alert({ message: 'العمولة مقسومة' + ': ' + frm.doc.sender_profit, indicator: 'green' });
+                }
 
             }
             else {
@@ -274,64 +284,62 @@ function adjust_profits(frm, changed_field) {
     let alzawia = frm.doc.alzawia_profit || 0;
 
     if (frm.doc.is_crossing) {
-        // ✅ Flexible balancing logic
         if (changed_field === 'sender_profit') {
-            // Sender changed, adjust the others
-            let remaining = total - sender;
-            if (receiver === 0 && alzawia === 0) {
-                // everything goes to sender
-                sender = total;
-            } else if (receiver === 0) {
-                alzawia = remaining;
-            } else if (alzawia === 0) {
-                receiver = remaining;
+            if (alzawia > 0) {
+                // 🔒 Alzawia fixed — only adjust receiver
+                receiver = total - alzawia - sender;
+                if (receiver < 0) receiver = 0;
             } else {
-                // both receiver & alzawia are non-zero → share remaining proportionally
-                let sum = receiver + alzawia;
-                receiver = Math.round((receiver / sum) * remaining);
-                alzawia = remaining - receiver;
+                // Normal balancing (when alzawia = 0)
+                let remaining = total - sender;
+                if (receiver === 0) receiver = remaining;
+                else receiver = remaining - alzawia;
             }
         } else if (changed_field === 'receiver_profit') {
-            let remaining = total - receiver;
-            if (sender === 0 && alzawia === 0) {
-                receiver = total;
-            } else if (sender === 0) {
-                alzawia = remaining;
-            } else if (alzawia === 0) {
-                sender = remaining;
+            if (alzawia > 0) {
+                // 🔒 Alzawia fixed — only adjust sender
+                sender = total - alzawia - receiver;
+                if (sender < 0) sender = 0;
             } else {
-                let sum = sender + alzawia;
-                sender = Math.round((sender / sum) * remaining);
-                alzawia = remaining - sender;
+                // Normal balancing (when alzawia = 0)
+                let remaining = total - receiver;
+                if (sender === 0) sender = remaining;
+                else sender = remaining - alzawia;
             }
         } else if (changed_field === 'alzawia_profit') {
+            // 🧭 Alzawia is source → adjust both others equally
             let remaining = total - alzawia;
+            if (remaining < 0) remaining = 0;
+
             if (sender === 0 && receiver === 0) {
-                alzawia = total;
-            } else if (sender === 0) {
-                receiver = remaining;
-            } else if (receiver === 0) {
-                sender = remaining;
+                // If both empty, split remaining 50/50
+                sender = receiver = remaining / 2;
             } else {
                 let sum = sender + receiver;
-                sender = Math.round((sender / sum) * remaining);
-                receiver = remaining - sender;
+                if (sum > 0) {
+                    // Adjust proportionally
+                    sender = Math.round((sender / sum) * remaining);
+                    receiver = remaining - sender;
+                } else {
+                    // Default split
+                    sender = receiver = remaining / 2;
+                }
             }
         } else if (changed_field === 'total_profit') {
-            // Recalculate based on proportions of old values
+            // Recalculate all based on proportions
             let sum = sender + receiver + alzawia;
             if (sum > 0) {
                 sender = Math.round((sender / sum) * total);
                 receiver = Math.round((receiver / sum) * total);
                 alzawia = total - (sender + receiver);
             } else {
-                // Default: give it all to alzawia
                 alzawia = total;
                 sender = 0;
                 receiver = 0;
             }
         }
-    } else {
+    }
+ else {
         // ✅ Your non-crossing logic stays the same
         if (changed_field === 'total_profit') {
             frm.set_value('profit_per_thousand', calculate_profit_per_thousand(frm));
