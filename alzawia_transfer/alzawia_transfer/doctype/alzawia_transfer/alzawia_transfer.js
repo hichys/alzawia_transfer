@@ -172,7 +172,7 @@ frappe.ui.form.on("Alzawia Transfer", {
                     message: phoneNumber === "ادخل يدويا" ? "لا يمكن استخراج الرقم. ادخله يدوياً" : `تم استخراج الرقم: ${phoneNumber}`,
                     indicator: phoneNumber === "ادخل يدويا" ? "red" : "green"
                 });
-            }, 2000);
+            }, 1000);
         }
     },
     from_customer: function (frm) {
@@ -404,3 +404,24 @@ function check_external_status(frm) {
         return (fromIsExternal && toIsExternal);
     });
 }
+
+function extract_phone_number(whatsapp_desc) {
+    try {
+        // Clean the text to remove spaces and hyphens
+        let cleanedText = whatsapp_desc.replace(/[\s-]/g, "");
+
+        // Match a phone number pattern with or without the country code
+        let match = cleanedText.match(/(?:\+?218)?0?(9[1234]\d{7})/);
+
+        if (match) {
+            console.log("Matched phone number:", match[1]);
+            return '0' + match[1]; // Return the matched phone number
+        } else {
+            console.log("No valid phone number found.");
+            return "ادخل يدويا"; // Fallback if no match
+        }
+    } catch (error) {
+        console.error("Error in extract_phone_number:", error);
+        return "ادخل يدويا"; // Fallback for unexpected errors
+    }
+} 
