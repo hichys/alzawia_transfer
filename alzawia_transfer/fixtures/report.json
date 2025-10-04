@@ -1,0 +1,40 @@
+[
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"columns\":[{\"label\":\"Posting Date\",\"fieldname\":\"posting_date\",\"fieldtype\":\"Date\",\"width\":120,\"id\":\"posting_date\",\"name\":\"Posting Date\",\"editable\":false},{\"label\":\"Account\",\"fieldname\":\"account\",\"fieldtype\":\"Link\",\"options\":\"Account\",\"width\":180,\"id\":\"account\",\"name\":\"Account\",\"editable\":false,\"compareValue\":null},{\"label\":\"Debit (LYD)\",\"fieldname\":\"debit\",\"fieldtype\":\"Currency\",\"options\":\"presentation_currency\",\"width\":130,\"id\":\"debit\",\"name\":\"Debit (LYD)\",\"editable\":false,\"compareValue\":null},{\"label\":\"Credit (LYD)\",\"fieldname\":\"credit\",\"fieldtype\":\"Currency\",\"options\":\"presentation_currency\",\"width\":130,\"id\":\"credit\",\"name\":\"Credit (LYD)\",\"editable\":false,\"compareValue\":null},{\"label\":\"Balance (LYD)\",\"fieldname\":\"balance\",\"fieldtype\":\"Currency\",\"options\":\"presentation_currency\",\"width\":130,\"id\":\"balance\",\"name\":\"Balance (LYD)\",\"editable\":false,\"compareValue\":null},{\"label\":\"Remarks\",\"fieldname\":\"remarks\",\"width\":400,\"id\":\"remarks\",\"name\":\"Remarks\",\"editable\":false,\"compareValue\":null}],\"filters\":{\"company\":\"Alzawia\",\"from_date\":\"2025-09-04\",\"to_date\":\"2025-10-04\",\"account\":[],\"party\":[],\"categorize_by\":\"Categorize by Voucher (Consolidated)\",\"cost_center\":[],\"project\":[],\"include_dimensions\":1,\"include_default_book_entries\":1,\"show_remarks\":1}}",
+  "letter_head": null,
+  "modified": "2025-10-04 04:16:53.722146",
+  "module": "Accounts",
+  "name": "حســـابكم لدينا",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "GL Entry",
+  "reference_report": "General Ledger",
+  "report_name": "حســـابكم لدينا",
+  "report_script": null,
+  "report_type": "Custom Report",
+  "roles": [
+   {
+    "role": "Accounts Manager"
+   },
+   {
+    "role": "Accounts User"
+   },
+   {
+    "role": "Auditor"
+   },
+   {
+    "role": "Alzawia Employee"
+   }
+  ],
+  "timeout": 0
+ }
+]
