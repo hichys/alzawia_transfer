@@ -16,6 +16,7 @@ frappe.query_reports["Custom General Ledger"] = {
 			label: __("Finance Book"),
 			fieldtype: "Link",
 			options: "Finance Book",
+			hidden: 1,
 		},
 		{
 			fieldname: "from_date",
@@ -51,15 +52,15 @@ frappe.query_reports["Custom General Ledger"] = {
 			on_change: function () {
 				frappe.query_report.set_filter_value("categorize_by", "Categorize by Voucher (Consolidated)");
 			},
+			hidden: 1,
 		},
 		{
 			fieldname: "against_voucher_no",
 			label: __("Against Voucher No"),
 			fieldtype: "Data",
+			hidden: 1,
 		},
-		{
-			fieldtype: "Break",
-		},
+	
 		{
 			fieldname: "party_type",
 			label: __("Party Type"),
@@ -68,12 +69,14 @@ frappe.query_reports["Custom General Ledger"] = {
 			on_change: function () {
 				frappe.query_report.set_filter_value("party", []);
 			},
+			hidden: 1,
 		},
 		{
 			fieldname: "party",
 			label: __("Party"),
 			fieldtype: "MultiSelectList",
 			options: "party_type",
+			hidden: 1,
 			get_data: function (txt) {
 				if (!frappe.query_report.filters) return;
 
@@ -110,6 +113,7 @@ frappe.query_reports["Custom General Ledger"] = {
 			label: __("Party Name"),
 			fieldtype: "Data",
 			hidden: 1,
+			
 		},
 		{
 			fieldname: "categorize_by",
@@ -135,12 +139,14 @@ frappe.query_reports["Custom General Ledger"] = {
 				},
 			],
 			default: "Categorize by Voucher (Consolidated)",
+			hidden: 1,
 		},
 		{
 			fieldname: "tax_id",
 			label: __("Tax Id"),
 			fieldtype: "Data",
 			hidden: 1,
+			
 		},
 		{
 			fieldname: "presentation_currency",
@@ -158,6 +164,7 @@ frappe.query_reports["Custom General Ledger"] = {
 					company: frappe.query_report.get_filter_value("company"),
 				});
 			},
+			hidden: 1,
 		},
 		{
 			fieldname: "project",
@@ -169,62 +176,75 @@ frappe.query_reports["Custom General Ledger"] = {
 					company: frappe.query_report.get_filter_value("company"),
 				});
 			},
+			hidden: 1,
 		},
 		{
 			fieldname: "include_dimensions",
 			label: __("Consider Accounting Dimensions"),
 			fieldtype: "Check",
 			default: 1,
+			hidden: 1,
 		},
-		{
-			fieldname: "show_opening_entries",
-			label: __("Show Opening Entries"),
-			fieldtype: "Check",
-		},
+		
+		
 		{
 			fieldname: "include_default_book_entries",
 			label: __("Include Default FB Entries"),
 			fieldtype: "Check",
 			default: 1,
+			hidden: 1,
 		},
 		{
 			fieldname: "show_cancelled_entries",
 			label: __("Show Cancelled Entries"),
 			fieldtype: "Check",
+			hidden: 1,
 		},
 		{
 			fieldname: "show_net_values_in_party_account",
 			label: __("Show Net Values in Party Account"),
 			fieldtype: "Check",
+			hidden: 1,
 		},
 		{
 			fieldname: "show_amount_in_company_currency",
 			label: __("Show Credit / Debit in Company Currency"),
 			fieldtype: "Check",
+			hidden: 1,
 		},
 		{
 			fieldname: "add_values_in_transaction_currency",
 			label: __("Add Columns in Transaction Currency"),
 			fieldtype: "Check",
+			hidden: 1,
 		},
+		
 		{
 			fieldname: "show_remarks",
 			label: __("Show Remarks"),
 			fieldtype: "Check",
+			default: true,
+		},
+		{
+			fieldname: "show_opening_entries",
+			label: __("Show Opening Entries"),
+			fieldtype: "Check",
+			default: true,
 		},
 		{
 			fieldname: "ignore_err",
 			label: __("Ignore Exchange Rate Revaluation and Gain / Loss Journals"),
 			fieldtype: "Check",
+			hidden: 1,
 		},
 		{
 			fieldname: "ignore_cr_dr_notes",
 			label: __("Ignore System Generated Credit / Debit Notes"),
 			fieldtype: "Check",
+			hidden: 1,
 		},
 	],
-	collapsible_filters: true,
-	seperate_check_filters: true,
+	
 };
 
 erpnext.utils.add_dimensions("General Ledger", 15);
