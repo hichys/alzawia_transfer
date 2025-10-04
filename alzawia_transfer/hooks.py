@@ -69,6 +69,7 @@ fixtures = [
 # ----------
 
 # application home page (will override Website Settings)
+home_page = "/app/alzawia"
 
 # website user home page (by Role)
 # role_home_page = {
