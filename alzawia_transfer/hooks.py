@@ -33,7 +33,7 @@ fixtures = [
         "filters": [["name", "in", ["تقرير الارصده","Custom General Ledger"]]],
     },
 ]
-
+boot_session = "alzawia_transfer.startup.boot_session"
 # Includes in <head>
 # ------------------
 
