@@ -30,7 +30,7 @@ fixtures = [
     {"doctype": "Custom DocPerm", "filters": [["role", "in", ["Alzawia Employee"]]]},
     {
         "doctype": "Report",
-        "filters": [["name", "in", ["حســـابكم لدينا"]]],
+        "filters": [["name", "in", ["تقرير الارصده"]]],
     },
 ]
 
