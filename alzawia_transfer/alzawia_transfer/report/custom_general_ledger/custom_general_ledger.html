@@ -1,0 +1,167 @@
+<!-- Modified for Alzawia Transfer Report -->
+<style type="text/css">
+    /* General styles for both screen display and print */
+    body, html {
+        margin-top: 10;
+        padding: 0;
+        width: 100%;
+        height: auto;
+        font-family: Arial, sans-serif;
+    }
+
+    .title-letter-spacing {
+        letter-spacing: .2rem;
+    }
+
+    @media print {
+        @page {
+            size: A4;
+            margin-top: 10mm;
+        }
+
+        thead {
+            display: table-header-group;
+        }
+
+        tfoot {
+            display: table-footer-group;
+        }
+
+        th, td {
+            padding: 1px;
+            border: 1px solid black;
+        }
+
+        .no-print {
+            display: none !important;
+        }
+    }
+</style>
+
+<br>
+<div style="font-family:Arial">
+    <div style="text-align:center;">
+        <img src="/assets/alzawia_transfer/logo.png" style="height:50px; margin-bottom:5px;"><br>
+        <b class="title-letter-spacing" style="font-size:15px; text-decoration:underline;">
+            {%= __("Alzawia STATEMENT") %}<br>
+            {%= __("تقــرير حســـابكم") %}<br>
+            {% if (filters.party_name) { %}
+                <br>{%= filters.party_name %}
+            {% } else if (filters.party && filters.party.length) { %}
+                <br>{%= filters.party %}
+            {% } else if (filters.account) { %}
+                <br>{%= filters.account %}
+            {% } else { %}
+                <br>{%= __("All Parties ") %}
+            {% } %}
+        </b>
+        <div style="font-size:13px;">
+            <b>
+                {%= __("{0} إلى {1}", [frappe.datetime.str_to_user(filters.from_date), frappe.datetime.str_to_user(filters.to_date)]) %}<br><br>
+            </b>
+        </div>
+    </div>
+
+    <table style="width:100%; font-size: 11px">
+        <thead>
+            <tr class="title-letter-spacing" style="text-align: center; font-weight:bold">
+                <td style="border: 1.5px solid black; width: 7em">{%= __("Date").toLocaleUpperCase() %}</td>
+                <td style="border: 1.5px solid black">{%= __("رقم العملية").toLocaleUpperCase() %}</td>
+                <td style="border: 1.5px solid black; width: 9em">{%= __("Debit").toLocaleUpperCase() %}</td>
+                <td style="border: 1.5px solid black; width: 9em">{%= __("Credit").toLocaleUpperCase() %}</td>
+                <td style="border: 1.5px solid black; width: 10.2em">{%= __("Balance").toLocaleUpperCase() %}</td>
+                {% if(filters.show_remarks) { %}
+                    <td style="border: 1.5px solid black">{%= __("Remarks").toLocaleUpperCase() %}</td>
+                {% } %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for(var i=0, l=data.length; i<l; i++) { %}
+                <tr style="border-bottom: 1px solid black">
+                    {% if(data[i].posting_date) { %}
+                        <td style="text-align: center; border: 1px dotted black">
+                            {%= frappe.datetime.str_to_user(data[i].posting_date) %}
+                        </td>
+
+                        <td style="border-right: 1px dotted black">
+							{%= data[i].alzawia_transfer || (data[i].voucher_type + " " + data[i].voucher_no) %}
+							{% if(!(filters.party || filters.account)) { %}
+								{%= data[i].party || data[i].account %}
+							{% } %}<br>
+							{% if(data[i].bill_no) { %}
+								{%= __("Supplier Invoice No") %}: {%= data[i].bill_no %}
+							{% } %}
+						</td>
+                        </td>
+
+                        <td style="text-align: right; border-right: 1px dotted black">
+                            {% if data[i].debit != 0 %}
+                                {%= format_currency(data[i].debit, filters.presentation_currency) %}
+                            {% } %}
+                        </td>
+                        <td style="text-align: right; border-right: 1px dotted black">
+                            {% if data[i].credit != 0 %}
+                                {%= format_currency(data[i].credit, filters.presentation_currency) %}
+                            {% } %}
+                        </td>
+                        <td style="text-align: right; border-right: 1px dotted black">
+                            {%= format_currency(data[i].balance, filters.presentation_currency) %}
+                        </td>
+
+                        {% if(filters.show_remarks) { %}
+                        <td style="border-right: 1px dotted black; font-size: 10px">
+                            {% if(data[i].remarks && data[i].remarks != "No Remarks") { %}
+                                {%= data[i].remarks %}
+                            {% } %}
+                        </td>
+                        {% } %}
+
+                    {% } else { %}
+                        <!-- Totals, Opening & Closing Balances -->
+                        <td style="text-align: center; border: 1px dotted black">
+                            {% if(i == 0) { %}
+                                {%= frappe.datetime.str_to_user(filters.from_date) %}
+                            {% } %}
+                        </td>
+                        <td style="text-align: left; border-right: 1px dotted black"><b>
+                            {% if(i == l-2) { %}
+                                {%= __("Total") %}
+                            {% } else if(i == l-1) { %}
+                                {%= __("قفل الحساب [الافتتاح + الإجمالي]") %}
+                            {% } else { %}
+                                {%= frappe.format(data[i].account, {fieldtype: "Link"}) || "&nbsp;" %}
+                            {% } %}
+                        </b></td>
+
+                        <td style="text-align: right; border-right: 1px dotted black">
+                            {% if(i != 0 && i != l-1) { %}
+                                {%= format_currency(data[i].debit, filters.presentation_currency) %}
+                            {% } %}
+                        </td>
+
+                        <td style="text-align: right; border-right: 1px dotted black">
+                            {% if(i != 0 && i != l-1) { %}
+                                {%= format_currency(data[i].credit, filters.presentation_currency) %}
+                            {% } %}
+                        </td>
+
+                        <td style="text-align: right; font-weight:bold; border-right: 1px dotted black">
+                            {%= format_currency(data[i].balance, filters.presentation_currency) %}
+                            {% if(data[i].balance < 0){ %} Cr {% } %}
+                            {% if(data[i].balance > 0){ %} Dr {% } %}
+                        </td>
+
+                        {% if(filters.show_remarks) { %}
+                            <td style="border-right: 1px dotted black; font-size: 10px"></td>
+                        {% } %}
+                    {% } %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p class="text-right text-muted">
+        {%= __("Printed on {0}", [frappe.datetime.str_to_user(frappe.datetime.get_datetime_as_string())]) %}
+    </p>
+</div>
