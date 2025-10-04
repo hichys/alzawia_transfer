@@ -2,7 +2,7 @@
  {
   "app": "Alzawia Transfer",
   "charts": [],
-  "content": "[{\"id\":\"Iqqp5IzcZp\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\" style=\\\"\\\">Alzawia Transfer</span>\",\"col\":12}},{\"id\":\"OeFqqi9-FC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Alzawia Transfer\",\"col\":4}},{\"id\":\"YzwWljszCT\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Alzawia Transfer List\",\"col\":4}},{\"id\":\"KcZ06PisYg\",\"type\":\"paragraph\",\"data\":{\"text\":\"Reports\",\"col\":12}}]",
+  "content": "[{\"id\":\"Iqqp5IzcZp\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\" style=\\\"\\\">Alzawia Transfer</span>\",\"col\":12}},{\"id\":\"OeFqqi9-FC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"New Alzawia Transfer\",\"col\":4}},{\"id\":\"YzwWljszCT\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Alzawia Transfer List\",\"col\":4}},{\"id\":\"KcZ06PisYg\",\"type\":\"paragraph\",\"data\":{\"text\":\"Reports\",\"col\":12}},{\"id\":\"la4CKAu6Ms\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"تقرير الارصده\",\"col\":3}}]",
   "custom_blocks": [],
   "docstatus": 0,
   "doctype": "Workspace",
@@ -16,7 +16,7 @@
   "link_to": null,
   "link_type": "DocType",
   "links": [],
-  "modified": "2025-10-04 03:29:22.962002",
+  "modified": "2025-10-04 07:13:23.845964",
   "module": "Alzawia Transfer",
   "name": "Alzawia",
   "number_cards": [],
@@ -39,6 +39,20 @@
     "restrict_to_domain": null,
     "stats_filter": "[]",
     "type": "DocType",
+    "url": null
+   },
+   {
+    "color": "Grey",
+    "doc_view": "List",
+    "format": null,
+    "icon": null,
+    "kanban_board": null,
+    "label": "تقرير الارصده",
+    "link_to": "تقرير الارصده",
+    "report_ref_doctype": "GL Entry",
+    "restrict_to_domain": null,
+    "stats_filter": null,
+    "type": "Report",
     "url": null
    },
    {
