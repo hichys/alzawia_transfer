@@ -33,7 +33,6 @@ fixtures = [
         "filters": [["name", "in", ["تقرير الارصده","Custom General Ledger"]]],
     },
 ]
-boot_session = "alzawia_transfer.startup.boot_session"
 # Includes in <head>
 # ------------------
 
@@ -70,7 +69,6 @@ boot_session = "alzawia_transfer.startup.boot_session"
 # ----------
 
 # application home page (will override Website Settings)
-home_page = "/app/alzawia"
 
 # website user home page (by Role)
 # role_home_page = {
