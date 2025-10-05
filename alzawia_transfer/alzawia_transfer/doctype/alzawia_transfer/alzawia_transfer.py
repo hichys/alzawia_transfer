@@ -68,7 +68,7 @@ class AlzawiaTransfer(Document):
         self.journal_entry = je.name
         self.save(ignore_permissions=True)
 
-        frappe.msgprint(f"Journal Entry {je.name} created for this transfer")
+        frappe.msgprint(f"تم إنشاءالحوالة بنجاح")
 
     def _handle_internal_to_internal(
         self, sender_cash, sender_profit, receiver_cash, receiver_profit
