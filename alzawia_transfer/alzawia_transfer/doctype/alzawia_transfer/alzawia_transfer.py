@@ -181,13 +181,14 @@ class AlzawiaTransfer(Document):
                 "credit_in_account_currency": (self.amount + self.receiver_profit),
             }
         )
-        accounts.append(
-            {
-                "account": main_profit_account,
-                "debit_in_account_currency": 0,
-                "credit_in_account_currency": self.alzawia_profit,
-            }
-        )
+        if self.alzawia_profit:
+            accounts.append(
+                {
+                    "account": main_profit_account,
+                    "debit_in_account_currency": 0,
+                    "credit_in_account_currency": self.alzawia_profit,
+                }
+            )
 
         return accounts
 
