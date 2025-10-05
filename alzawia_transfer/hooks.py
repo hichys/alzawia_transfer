@@ -32,6 +32,8 @@ fixtures = [
         "doctype": "Report",
         "filters": [["name", "in", ["تقرير الارصده","Custom General Ledger"]]],
     },
+    "Page",
+
 ]
 # Includes in <head>
 # ------------------
