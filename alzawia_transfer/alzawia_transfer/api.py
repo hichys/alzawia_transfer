@@ -1,66 +1,12 @@
-# alzawia_transfer/alzawia_transfer/api.py
 import frappe
-
-
-@frappe.whitelist()
-def get_cash_accounts_with_balance():
-    """
-    Return list of cash accounts from Transfer Setting (internal + external)
-    with their closing balance (debit - credit) for the default company.
-    """
-    company = frappe.defaults.get_global_default("company")
-    if not company:
-        company = frappe.get_single("Company").name
-
-    try:
-        ts = frappe.get_single("Transfer Setting")
-    except frappe.DoesNotExistError:
-        return []
-
-    def _balance(account):
-        if not account:
-            return 0
-        res = frappe.db.sql(
-            """
-            SELECT IFNULL(SUM(debit),0) - IFNULL(SUM(credit),0)
-            FROM `tabGL Entry`
-            WHERE account=%s AND company=%s
-            """,
-            (account, company),
-        )
-        return res and res[0][0] or 0
-
-    out = []
-    for row in getattr(ts, "internal", []) or []:
-        if row.cash_account:
-            out.append(
-                {
-                    "account": row.cash_account,
-                    "label": getattr(row, "customer") or row.cash_account,
-                    "type": "Internal",
-                    "balance": _balance(row.cash_account),
-                }
-            )
-
-    for row in getattr(ts, "external", []) or []:
-        if row.cash_account:
-            out.append(
-                {
-                    "account": row.cash_account,
-                    "label": getattr(row, "customer") or row.cash_account,
-                    "type": "External",
-                    "balance": _balance(row.cash_account),
-                }
-            )
-
-    return out
 
 
 @frappe.whitelist()
 def get_cash_balances():
     """
-    Return cash balances for internal and external accounts.
-    For internal accounts, also include profit account balance.
+    Return merged cash balances for internal and external accounts.
+    Internal accounts include profit balance.
+    Display names are cleaned: remove 'خزنة' and '- A'.
     """
     try:
         settings = frappe.get_single("Transfer Setting")
@@ -68,31 +14,29 @@ def get_cash_balances():
         frappe.log_error("Transfer Setting not found", "Alzawia Reports Error")
         return []
 
-    company = frappe.defaults.get_global_default("company")
-    if not company:
-        company = frappe.get_all("Company", limit=1)[0].name
+    company = (
+        frappe.defaults.get_global_default("company")
+        or frappe.get_all("Company", limit=1)[0].name
+    )
 
-    balances = []
+    balances_dict = {}  # key: base account name, value: merged dict
 
     def get_balance(account):
-        """Return closing balance for an account."""
         if not account:
             return 0
         res = frappe.db.sql(
             """
-            SELECT IFNULL(SUM(debit), 0) - IFNULL(SUM(credit), 0)
+            SELECT IFNULL(SUM(debit),0) - IFNULL(SUM(credit),0)
             FROM `tabGL Entry`
-            WHERE account = %s AND company = %s
-            """,
+            WHERE account=%s AND company=%s
+        """,
             (account, company),
         )
         return res[0][0] if res else 0
 
-    internal_cash = settings.get("internal") or []
-    external_cash = settings.get("external") or []
+    all_accounts = (settings.get("internal") or []) + (settings.get("external") or [])
 
-    # Internal accounts with profit
-    for row in internal_cash:
+    for row in all_accounts:
         account = row.cash_account
         if not account:
             continue
@@ -103,45 +47,32 @@ def get_cash_balances():
         if not account_data:
             continue
 
+        # Clean display name
+        base_name = (
+            account_data.account_name.replace("- خزنة", "")
+            .replace("- A", "")
+            .strip()
+        )
         balance = get_balance(account)
         profit_balance = (
-            get_balance(row.profit_account)
+            get_balance(getattr(row, "profit_account", None))
             if getattr(row, "profit_account", None)
             else 0
         )
+        acc_type = "Internal" if row in (settings.get("internal") or []) else "External"
 
-        balances.append(
-            {
+        if base_name in balances_dict:
+            # Merge balances for same base name
+            balances_dict[base_name]["balance"] += balance
+            balances_dict[base_name]["profit_balance"] += profit_balance
+        else:
+            balances_dict[base_name] = {
                 "account": account,
-                "account_name": account_data.account_name,
+                "account_name": base_name,
                 "currency": account_data.account_currency or "LYD",
                 "balance": balance,
-                "type": "Internal",
+                "type": acc_type,
                 "profit_balance": profit_balance,
             }
-        )
 
-    # External accounts
-    for row in external_cash:
-        account = row.cash_account
-        if not account:
-            continue
-
-        account_data = frappe.db.get_value(
-            "Account", account, ["account_name", "account_currency"], as_dict=True
-        )
-        if not account_data:
-            continue
-
-        balance = get_balance(account)
-        balances.append(
-            {
-                "account": account,
-                "account_name": account_data.account_name,
-                "currency": account_data.account_currency or "LYD",
-                "balance": balance,
-                "type": "External",
-            }
-        )
-
-    return balances
+    return list(balances_dict.values())
