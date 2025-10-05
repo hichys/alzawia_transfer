@@ -1,6 +1,7 @@
 frappe.ready(function () {
     const el = document.getElementById('cash-balances');
-    if (!el) return;
+    if (!el || el.dataset.loaded) return; // prevent multiple calls
+    el.dataset.loaded = true; // mark as loaded
 
     el.innerHTML = "";
 
@@ -8,7 +9,6 @@ frappe.ready(function () {
         method: "alzawia_transfer.alzawia_transfer.api.get_cash_balances",
         callback: function (r) {
             if (r.message && r.message.length) {
-
                 r.message.forEach((acc) => {
                     const clean_label = acc.account_name.replace(/\s*-\s*خزنة$/, "").trim();
 
@@ -26,7 +26,6 @@ frappe.ready(function () {
                         ${profit_balance ? `<div class="card-profit">Profit: +${profit_balance} LYD</div>` : ""}
                     `;
 
-                    // Click goes to report with filter
                     div.onclick = () => {
                         window.location.href = `/app/query-report/تقرير الارصده?account=${encodeURIComponent(acc.account)}`;
                     };
