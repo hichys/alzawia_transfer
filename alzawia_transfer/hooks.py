@@ -41,8 +41,8 @@ fixtures = [
 # app_include_js = "/assets/alzawia_transfer/js/alzawia_transfer.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/alzawia_transfer/css/alzawia_transfer.css"
-# web_include_js = "/assets/alzawia_transfer/js/alzawia_transfer.js"
+web_include_css = "/assets/alzawia_transfer/css/alzawia_reports.css"
+web_include_js = "/assets/alzawia_transfer/js/alzawia_reports.js"
 
 # include custom scss in every website theme (without file extension ".scss")
 # website_theme_scss = "alzawia_transfer/public/scss/website"

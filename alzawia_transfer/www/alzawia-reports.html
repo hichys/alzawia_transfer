@@ -1,0 +1,18 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<div class="balances-container">
+  <h2>Cash Balances</h2>
+  <div id="cash-balances" class="balances-grid">
+    <p>Loading balances...</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/assets/alzawia_transfer/js/alzawia_reports.js"></script>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="/assets/alzawia_transfer/css/alzawia_reports.css">
+{% endblock %}

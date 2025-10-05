@@ -124,14 +124,14 @@ class AlzawiaTransfer(Document):
                 "credit_in_account_currency": self.amount + self.receiver_profit,
             }
         )
-
-        accounts.append(
-                {
-                    "account": sender_profit,
-                    "debit_in_account_currency": 0,
-                    "credit_in_account_currency": (self.sender_profit or 0),
-                }
-            )
+        if(self.sender_profit):
+            accounts.append(
+                    {
+                        "account": sender_profit,
+                        "debit_in_account_currency": 0,
+                        "credit_in_account_currency": (self.sender_profit or 0),
+                    }
+                )
 
         return accounts
 
