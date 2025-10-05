@@ -202,7 +202,7 @@ class AlzawiaTransfer(Document):
         if je_doc.posting_date == self.posting_date:
             if je_doc.docstatus == 1:  # submitted
                 je_doc.cancel()
-                frappe.msgprint(f"Journal Entry {je_doc.name} cancelled.")
+                frappe.msgprint(f"تم الإلغاء بنجاح")
         else:  # Reverse
             if self.posting_date < je_doc.posting_date:
                 frappe.throw(
@@ -228,5 +228,5 @@ class AlzawiaTransfer(Document):
             reversal_je.submit()
 
             frappe.msgprint(
-                f"Reversal Journal Entry {reversal_je.name} created for cancelled transfer."
+                f"تم عكس الحوالة"
             )
