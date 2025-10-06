@@ -8,7 +8,7 @@ app_license = "mit"
 # Apps
 # ------------------
 
-required_apps = ["erpnext"]
+required_apps = ["frappe/erpnext"]
 
 # Each item in the list will be shown as an app in the apps page
 add_to_apps_screen = [
@@ -20,20 +20,19 @@ add_to_apps_screen = [
 	}
 ]
 website_context = {
-    "splash_image": "/assets/alzawia_transfer/logo.png",
-    "favicon": "/assets/alzawia_transfer/logo.png",
+	"splash_image": "/assets/alzawia_transfer/logo.png",
+	"favicon": "/assets/alzawia_transfer/logo.png",
 }
 fixtures = [
-    {"doctype": "Workspace", "filters": [["name", "in", ["Alzawia"]]]},
-    {"doctype": "Role", "filters": [["name", "in", ["Alzawia Employee"]]]},
-    {"doctype": "DocPerm", "filters": [["role", "=", "Alzawia Employee"]]},
-    {"doctype": "Custom DocPerm", "filters": [["role", "in", ["Alzawia Employee"]]]},
-    {
-        "doctype": "Report",
-        "filters": [["name", "in", ["تقرير الارصده","Custom General Ledger"]]],
-    },
-    "Page",
-
+	{"doctype": "Workspace", "filters": [["name", "in", ["Alzawia"]]]},
+	{"doctype": "Role", "filters": [["name", "in", ["Alzawia Employee"]]]},
+	{"doctype": "DocPerm", "filters": [["role", "=", "Alzawia Employee"]]},
+	{"doctype": "Custom DocPerm", "filters": [["role", "in", ["Alzawia Employee"]]]},
+	{
+		"doctype": "Report",
+		"filters": [["name", "in", ["تقرير الارصده", "Custom General Ledger"]]],
+	},
+	"Page",
 ]
 # Includes in <head>
 # ------------------
