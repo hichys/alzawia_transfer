@@ -4,10 +4,14 @@ on:
   push:
     branches:
       - main
+      - develop
   pull_request:
+    branches:
+      - main
+      - develop
 
 concurrency:
-  group: main-alzawia_transfer-${{ github.event.number }}
+  group: alzawia_transfer-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -80,14 +84,14 @@ jobs:
           sudo apt update
           sudo apt-get install mariadb-client
 
-      - name: Setup
+      - name: Setup Bench
         run: |
           pip install frappe-bench
           bench init --skip-redis-config-generation --skip-assets --python "$(which python)" ~/frappe-bench
           mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL character_set_server = 'utf8mb4'"
           mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
 
-      - name: Install
+      - name: Install Apps
         working-directory: /home/runner/frappe-bench
         run: |
           bench get-app erpnext https://github.com/frappe/erpnext --branch version-15
