@@ -11,7 +11,12 @@ frappe.ui.form.on("Alzawia Transfer", {
                 frm.doc.profit_per_thousand = value;
                 frm.refresh_field('profit_per_thousand');
             });
+            if (frm.doc.amended_from) {
+                frm.doc.journal_entry = ""
+                frappe.show_alert(`This document is an amendment of ${frm.doc.amended_from}`);
+            }
         }
+        
         frm.set_query("from_customer", function () {
             return {
                 filters: [
